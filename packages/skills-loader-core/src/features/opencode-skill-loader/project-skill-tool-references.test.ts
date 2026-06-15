@@ -26,11 +26,14 @@ describe("project skill tool references", () => {
     test("#when reading the commit delegation example #then it uses a real task category", async () => {
       const skillContent = await readProjectSkill("work-with-pr")
 
-      const usesQuickCategory = skillContent.includes(
-        'task(category="quick", load_skills=["git-master"], prompt="Commit the changes atomically following git-master conventions. Repository is at {WORKTREE_PATH}.")'
+      const usesRealReviewCategory = skillContent.includes(
+        'category="unspecified-high"'
       )
 
-      expect(usesQuickCategory).toBe(true)
+      expect(usesRealReviewCategory).toBe(true)
+      expect(skillContent).not.toContain(
+        'task(category="quick", load_skills=["git-master"], prompt="Commit the changes atomically following git-master conventions. Repository is at {WORKTREE_PATH}.")'
+      )
       expect(skillContent).not.toContain('task(category="git"')
     })
   })
